@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Locale | default "zh-CN" }}">
+<head>
+  <meta charset="utf-8">
+  <script>(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="hugo-env-probe" content="env={{ hugo.Environment }}|server={{ hugo.IsServer }}">
+  <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+  <link rel="stylesheet" href="{{ "css/style.css" | relURL }}{{ if eq hugo.Environment "development" }}?v={{ now.Unix }}{{ end }}">
+  {{ $hasMath := or (in .Content "math-block") (in .Content "math-inline") }}
+  {{ if $hasMath }}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  {{ end }}
+</head>
+<body>
+  {{ partial "header.html" . }}
+  <main class="container{{ if .IsHome }} container-home{{ else if eq .Kind "page" }} container-post{{ else }} container-home{{ end }}">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+  <script src="{{ "js/main.js" | relURL }}"></script>
+  {{ if $hasMath }}
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script defer src="{{ "js/katex-render.js" | relURL }}"></script>
+  {{ end }}
+</body>
+</html>

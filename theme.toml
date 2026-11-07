@@ -1,0 +1,7 @@
+name = "simple-theme"
+license = "MIT"
+description = "一个极简的 Hugo 博客主题"
+min_version = "0.128.0"
+
+[author]
+  name = "Hux"

@@ -1,0 +1,89 @@
+{{ define "main" }}
+<div class="home-layout">
+  <aside class="profile">
+    <img class="avatar" src="{{ .Site.Params.author.avatar | relURL }}" alt="{{ .Site.Params.author.name }}">
+    <h1>{{ .Site.Params.author.name }}</h1>
+    <p class="bio">{{ .Site.Params.author.bio }}</p>
+    <div class="social-links">
+      {{ with .Site.Params.social.github }}
+      <a href="{{ . }}" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.66.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.79.56A11.52 11.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+      </a>
+      {{ end }}
+      {{ with .Site.Params.social.email }}
+      <a href="{{ . }}" aria-label="邮箱">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M3 4h18a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm0 2v1.6l9 5.4 9-5.4V6H3zm0 12h18V9.9l-9 5.4-9-5.4V18z"/></svg>
+      </a>
+      {{ end }}
+      {{ with .Site.Params.social.rss }}
+      <a href="{{ . }}" aria-label="RSS">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M4 11a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7v-2zm0-4a13 13 0 0 1 13 13h-2A11 11 0 0 0 4 9V7zm0 11a1.75 1.75 0 1 1 0 3.5A1.75 1.75 0 0 1 4 18z"/></svg>
+      </a>
+      {{ end }}
+    </div>
+  </aside>
+
+  <section class="resume">
+    {{ with .Site.Params.education }}
+    <div class="resume-block">
+      <h2 class="section-title">教育经历</h2>
+      {{ range . }}
+      <div class="resume-item">
+        <div class="resume-item-head">
+          <span class="resume-item-title">{{ .school }}</span>
+          <span class="resume-item-period">{{ .period }}</span>
+        </div>
+        <div class="resume-item-sub">{{ .degree }}</div>
+        {{ with .description }}<p class="resume-item-desc">{{ . }}</p>{{ end }}
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    {{ with .Site.Params.experience }}
+    <div class="resume-block">
+      <h2 class="section-title">工作经历</h2>
+      {{ range . }}
+      <div class="resume-item">
+        <div class="resume-item-head">
+          <span class="resume-item-title">{{ .company }}</span>
+          <span class="resume-item-period">{{ .period }}</span>
+        </div>
+        <div class="resume-item-sub">{{ .role }}</div>
+        {{ with .description }}<p class="resume-item-desc">{{ . }}</p>{{ end }}
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+
+    {{ with .Site.Params.skills }}
+    <div class="resume-block">
+      <h2 class="section-title">技能</h2>
+      {{ range . }}
+      <div class="resume-item">
+        <div class="resume-item-title">{{ .name }}</div>
+        <p class="skill-tags">
+          {{ range .items }}<span class="skill-tag">{{ . }}</span>{{ end }}
+        </p>
+      </div>
+      {{ end }}
+    </div>
+    {{ end }}
+  </section>
+</div>
+
+<section class="recent">
+  <h2 class="section-title">最近发布</h2>
+  <ul class="post-list">
+    {{ range first 5 (where .Site.RegularPages.ByDate.Reverse "Type" "!=" "notes") }}
+    <li class="post-item">
+      <span class="post-meta">
+        <span class="post-type">文章</span>
+        <a class="post-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </span>
+      <time>{{ .Date.Format "2006-01-02" }}</time>
+    </li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}

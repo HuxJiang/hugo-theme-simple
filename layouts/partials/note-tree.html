@@ -1,0 +1,14 @@
+{{ range .Sections.ByWeight }}
+<li class="note-group">
+  <button class="note-group-toggle" type="button" aria-expanded="true">
+    <svg class="note-caret" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8 5l8 7-8 7z"/></svg>
+    <span class="note-group-title">{{ .Title }}</span>
+  </button>
+  <ul class="note-tree note-group-body">
+    {{ partial "note-tree.html" . }}
+  </ul>
+</li>
+{{ end }}
+{{ range .RegularPages.ByDate.Reverse }}
+<li class="note-leaf"><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+{{ end }}
